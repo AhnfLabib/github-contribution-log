@@ -1,15 +1,17 @@
-# Contribution [#]: [Issue Title]
+# Contribution [1]: Update README instructions to reference project wiki
 
-**Contribution Number:** [1 / 2 / 3]  
-**Student:** [Your Name]  
-**Issue:** [GitHub issue link]  
-**Status:** [Phase I / Phase II / Phase III / Phase IV] [In Progress / Complete]
+**Contribution Number:** [1]  
+**Student:** Ahnaf Labib
+**Issue:** https://github.com/codeforpdx/tenantfirstaid/issues/281  
+**Status:** [Phase I Complete]
 
 ---
 
 ## Why I Chose This Issue
 
-[1-2 paragraphs explaining why this issue interests you, how it matches your skills/learning goals, what you hope to learn]
+I chose this issue because it combines two things I value in software projects: clear documentation and public impact. This issue is about updating the README so contributors can better use the project wiki, which helps make the Tenant First Aid codebase more accessible and easier to contribute to. That matters to me because in my current internship work, I often build data and automation solutions that depend on making technical systems understandable and useful to others.
+
+This also connects directly to my learning goals in AI, software engineering, and civic technology. The issue is labeled as a documentation task and a good first issue, so it gives me a chance to strengthen my open-source workflow, improve collaboration skills, and contribute to a real community-focused project. Since my company is planning a civic data platform for Indiana with a similar public-service purpose, this issue feels especially relevant to the kind of work I want to do in the future.
 
 ---
 
