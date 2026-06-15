@@ -1,17 +1,15 @@
-# Contribution [1]: Update README instructions to reference project wiki
+# Contribution [1]: Enhance workspace-level READMEs
 
 **Contribution Number:** [1]  
 **Student:** Ahnaf Labib
-**Issue:** https://github.com/codeforpdx/tenantfirstaid/issues/281  
+**Issue:** https://github.com/backstage/community-plugins/issues/4056  
 **Status:** [Phase I Complete]
 
 ---
 
 ## Why I Chose This Issue
 
-I chose this issue because it combines two things I value in software projects: clear documentation and public impact. This issue is about updating the README so contributors can better use the project wiki, which helps make the Tenant First Aid codebase more accessible and easier to contribute to. That matters to me because in my current internship work, I often build data and automation solutions that depend on making technical systems understandable and useful to others.
-
-This also connects directly to my learning goals in AI, software engineering, and civic technology. The issue is labeled as a documentation task and a good first issue, so it gives me a chance to strengthen my open-source workflow, improve collaboration skills, and contribute to a real community-focused project. Since my company is planning a civic data platform for Indiana with a similar public-service purpose, this issue feels especially relevant to the kind of work I want to do in the future.
+I chose this issue because it's a great entry point for my first open source contribution. It involves improving documentation — specifically replacing boilerplate README files in the backstage/community-plugins repo with meaningful ones that describe each workspace and list its plugins. This is part of my AI 301 course at CodePath, and I wanted to start with something that lets me learn the full contribution workflow (fork, branch, PR) without being blocked by deep codebase complexity. Documentation work is also directly relevant to my internship, where clear technical writing and system documentation are things I care about.
 
 ---
 
