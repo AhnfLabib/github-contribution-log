@@ -2,7 +2,7 @@
 **Contribution Number:** [1]  
 **Student:** Ahnaf Labib
 **Issue:** https://github.com/backstage/community-plugins/issues/4056  
-**Status:** [Phase III — Implementation complete; pushed to branch; PR pending]  
+**Status:** [Phase IV — PR submitted upstream; awaiting maintainer review]  
 **Final target workspace:** `workspaces/quay/README.md` (pivoted from `analytics` — see Solution Approach)
 ---
 
@@ -101,7 +101,7 @@ Replaced the default scaffolded `workspaces/quay/README.md` with a workspace-lev
   - `quay-common` — shared types/utilities used by the other Quay plugins.
 - A `## Quick start` install snippet pointing to the per-plugin READMEs for details.
 - **Branch:** [`fix-issue-4056`](https://github.com/AhnfLabib/community-plugins/tree/fix-issue-4056)
-- **Commit:** [`9b495c076`](https://github.com/AhnfLabib/community-plugins/commit/9b495c076) — `docs(quay): enhance workspace-level README`
+- **Commit:** [`5680308d9`](https://github.com/AhnfLabib/community-plugins/commit/5680308d9) — `docs(quay): enhance workspace-level README`
 
 **Review:**  
 Verified before push:
@@ -141,28 +141,45 @@ Verified before push:
 - Implemented the enhanced `workspaces/quay/README.md`, committed it as a single focused commit, kept an unrelated `.gitignore` edit off the branch, and pushed cleanly to `origin/fix-issue-4056`.
 - Decision: kept the change scoped to one workspace README for a small, reviewable PR rather than batching many workspaces.
 
+### Week 4 Progress (Phase IV — Submit & Iterate)
+
+- Performed a final pre-submission review: confirmed the change fully addresses #4056, verified all four plugin README links resolve, and confirmed the PR diff is limited to `workspaces/quay/README.md` (no unrelated `.gitignore` or other files).
+- Opened upstream pull request [#9538](https://github.com/backstage/community-plugins/pull/9538) from `AhnfLabib:fix-issue-4056` → `backstage/community-plugins:main` (1 commit, +21 / −9, documentation-only).
+- PR description links issue #4056, explains the workspace README enhancement, and notes that no changeset is required (consistent with precedent doc-only PR #6852).
+- No human maintainer feedback yet; monitoring the PR for review comments and ready to iterate if requested.
+- Remaining course deliverables outside this repo: Phase IV check-in submission on the course page and a completion post in the class Slack channel.
+
 ### Code Changes
 
 - **Files modified:** `workspaces/quay/README.md` (1 file, +21 / −9)
-- **Key commits:** [`9b495c076`](https://github.com/AhnfLabib/community-plugins/commit/9b495c076) — `docs(quay): enhance workspace-level README`
+- **Key commits:** [`5680308d9`](https://github.com/AhnfLabib/community-plugins/commit/5680308d9) — `docs(quay): enhance workspace-level README`
 - **Approach decisions:** Followed the README structure used by the gold-standard `announcements` workspace and the format recommended in issue #4056; derived plugin descriptions from each plugin's own README; no changeset (matches doc-only precedent PR #6852).
 
 ---
 
 ## Pull Request
 
-**PR Link:** _Not yet opened._ Branch is pushed and ready: [`fix-issue-4056`](https://github.com/AhnfLabib/community-plugins/tree/fix-issue-4056) → base `backstage/community-plugins:main`.
+**PR Link:** https://github.com/backstage/community-plugins/pull/9538  
+**Branch:** [`fix-issue-4056`](https://github.com/AhnfLabib/community-plugins/tree/fix-issue-4056) → `backstage/community-plugins:main`  
+**Opened:** 2026-06-23  
+**Files changed:** 1 (`workspaces/quay/README.md`, +21 / −9)
 
-**PR Description (draft):**
-> **docs(quay): enhance workspace-level README**
+**Contribution summary:**  
+Replaced the default scaffolded `workspaces/quay/README.md` with a workspace overview that describes the Quay container registry workspace, lists its four plugins with links and one-line descriptions, and includes a quick-start install snippet — addressing [#4056](https://github.com/backstage/community-plugins/issues/4056).
+
+**PR Description:**
+> **Fix issue 4056**
 >
-> Addresses #4056. The `quay` workspace still used the default scaffolded README (`"...Good Luck!"`). This replaces it with a workspace overview describing the workspace's purpose and listing its four plugins (`quay`, `quay-backend`, `quay-actions`, `quay-common`) with links to each plugin's README and a brief description, following the format requested in #4056 and the precedent of #6852. Documentation-only; no changeset.
+> Replaces the Quay workspace's boilerplate README with a workspace-specific overview following the format requested in #4056 and the precedent of merged PR #6852. Documentation-only; no changeset required.
 
 **Maintainer Feedback:**
-- [Date]: [Summary of feedback received]
-- [Date]: [How you addressed it]
+- **2026-06-23 — GitHub Copilot review (bot):** Posted an overview comment summarizing the README change. No actionable review comments or requested changes.
+- **Human maintainers:** No feedback yet.
 
-**Status:** Branch pushed; PR not yet opened.
+**My responses:**
+- No maintainer-requested changes to address yet. Will respond promptly and professionally if review comments arrive.
+
+**Status:** Open — awaiting maintainer review.
 
 ---
 
@@ -170,20 +187,25 @@ Verified before push:
 
 ### Technical Skills Gained
 
-[What you learned technically]
+- Learned how to navigate a large monorepo (`backstage/community-plugins`) and identify valid contribution targets by comparing workspace READMEs against upstream merge history.
+- Practiced scoping a doc-only PR: deriving accurate plugin descriptions from per-plugin READMEs, verifying relative links, and confirming no changeset is needed for documentation-only changes.
 
 ### Challenges Overcome
 
-[What was hard and how you solved it]
+- The originally selected `analytics` workspace had already been fixed upstream (PR #6852), so I had to pivot rather than submit a redundant change. Scanning for remaining boilerplate READMEs and choosing `quay` kept the contribution aligned with #4056.
+- Keeping local progress-tracking files (including this log) out of the upstream PR required separating fork-only `.gitignore` edits from the contribution branch.
 
 ### What I'd Do Differently Next Time
 
-[Reflection on your process]
+- Check upstream merge history for the target file earlier in Phase II, before investing time in a workspace that may already be resolved.
+- Draft the upstream PR description with more context upfront (linked issue, acceptance criteria, and precedent PRs) rather than relying on the default template.
 
 ---
 
 ## Resources Used
 
-- [Link to helpful documentation]
-- [Tutorial or Stack Overflow post that helped]
-- [GitHub issues or discussions that helped]
+- [Issue #4056 — Improve workspace-level READMEs](https://github.com/backstage/community-plugins/issues/4056)
+- [PR #6852 — docs: improve workspace-level READMEs for selected workspaces](https://github.com/backstage/community-plugins/pull/6852) (format precedent)
+- [My upstream PR #9538](https://github.com/backstage/community-plugins/pull/9538)
+- [Backstage community-plugins CONTRIBUTING.md](https://github.com/backstage/community-plugins/blob/master/CONTRIBUTING.md) (changeset and DCO guidance)
+- Gold-standard reference: `workspaces/announcements/README.md`
