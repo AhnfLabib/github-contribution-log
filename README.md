@@ -130,6 +130,46 @@ Verified before push:
 - Confirmed `git diff` shows only `workspaces/quay/README.md` changed (no unrelated edits).
 - Verified the change is present on the remote branch (`origin/fix-issue-4056`) and correctly absent from `main` (it will land on `main` only when the PR merges).
 
+### Implementation Proof (before / after)
+
+This is a documentation-only change (no UI or backend runtime). Proof is the before/after README content and the PR diff.
+
+**Before** (`workspaces/quay/README.md` — default scaffold):
+
+```md
+# Backstage
+
+This is your newly scaffolded Backstage App, Good Luck!
+
+To start the app, run:
+
+yarn install
+yarn start
+```
+
+**After** (`workspaces/quay/README.md` on branch `fix-issue-4056`):
+
+- Title + workspace purpose (Quay container registry in Backstage)
+- `## Plugins` list with links to all four packages (`quay`, `quay-backend`, `quay-actions`, `quay-common`)
+- `## Quick start` install commands pointing at per-plugin READMEs
+
+**Diff evidence:** [PR #9538 files changed](https://github.com/backstage/community-plugins/pull/9538/files) — 1 file, +21 / −9  
+**Rendered after:** [workspaces/quay/README.md @ fix-issue-4056](https://github.com/AhnfLabib/community-plugins/blob/fix-issue-4056/workspaces/quay/README.md)
+
+**Verification commands run locally:**
+
+```text
+$ git diff --stat main...HEAD
+ workspaces/quay/README.md | 30 +++++++++++++++++++++---------
+ 1 file changed, 21 insertions(+), 9 deletions(-)
+
+$ ls workspaces/quay/plugins/*/README.md
+workspaces/quay/plugins/quay-actions/README.md
+workspaces/quay/plugins/quay-backend/README.md
+workspaces/quay/plugins/quay-common/README.md
+workspaces/quay/plugins/quay/README.md
+```
+
 ---
 
 ## Implementation Notes
@@ -145,9 +185,9 @@ Verified before push:
 
 - Performed a final pre-submission review: confirmed the change fully addresses #4056, verified all four plugin README links resolve, and confirmed the PR diff is limited to `workspaces/quay/README.md` (no unrelated `.gitignore` or other files).
 - Opened upstream pull request [#9538](https://github.com/backstage/community-plugins/pull/9538) from `AhnfLabib:fix-issue-4056` → `backstage/community-plugins:main` (1 commit, +21 / −9, documentation-only).
-- PR description links issue #4056, explains the workspace README enhancement, and notes that no changeset is required (consistent with precedent doc-only PR #6852).
+- Course Phase IV feedback scored **8/15**; main gap was missing **Implementation Proof** (screenshots / console evidence). Updated this Contribution README with before/after proof and rewritten the upstream PR body to the course template.
 - No human maintainer feedback yet; monitoring the PR for review comments and ready to iterate if requested.
-- Remaining course deliverables outside this repo: Phase IV check-in submission on the course page and a completion post in the class Slack channel.
+- Remaining course deliverables: resubmit Phase IV check-in after PR + README updates; celebration Slack post.
 
 ### Code Changes
 
@@ -167,19 +207,67 @@ Verified before push:
 **Contribution summary:**  
 Replaced the default scaffolded `workspaces/quay/README.md` with a workspace overview that describes the Quay container registry workspace, lists its four plugins with links and one-line descriptions, and includes a quick-start install snippet — addressing [#4056](https://github.com/backstage/community-plugins/issues/4056).
 
-**PR Description:**
-> **Fix issue 4056**
->
-> Replaces the Quay workspace's boilerplate README with a workspace-specific overview following the format requested in #4056 and the precedent of merged PR #6852. Documentation-only; no changeset required.
+**PR Description (course template — paste into [#9538](https://github.com/backstage/community-plugins/pull/9538)):**  
+Full copy-paste body is also in local `pr-body-9538.md` (gitignored).
+
+~~~~
+## What does this PR do?
+
+Replaces the default scaffolded README in `workspaces/quay` with a workspace-specific overview. The new README describes the Quay workspace purpose, lists its four packages (`quay`, `quay-backend`, `quay-actions`, `quay-common`) with links and short descriptions, and adds a quick-start install snippet that points to the per-plugin READMEs.
+
+## Why was this PR needed?
+
+Issue [#4056](https://github.com/backstage/community-plugins/issues/4056) asks for stronger workspace-level READMEs so contributors can understand what each workspace contains. Investigation showed that `workspaces/analytics` (my original target) was already improved in #6852, while `workspaces/quay` still used the boilerplate "This is your newly scaffolded Backstage App, Good Luck!" text despite being a multi-plugin workspace. This change follows the format used by gold-standard workspace READMEs (e.g. `announcements`) and the precedent of #6852.
+
+## What are the relevant issue numbers?
+
+Addresses #4056
+
+## Screenshots / Recordings (if applicable)
+
+Documentation-only change (no UI or backend runtime). Before/after of `workspaces/quay/README.md`:
+
+**Before (scaffold):**
+
+```
+# Backstage
+
+This is your newly scaffolded Backstage App, Good Luck!
+
+To start the app, run:
+
+yarn install
+yarn start
+```
+
+**After:** workspace title + purpose, Plugins section linking all four Quay packages, and Quick start install commands.
+
+- Rendered after: https://github.com/AhnfLabib/community-plugins/blob/fix-issue-4056/workspaces/quay/README.md
+- Diff: https://github.com/backstage/community-plugins/pull/9538/files
+
+## Does this PR meet the acceptance criteria?
+
+- [x] Tests added for new/changed behavior — N/A (docs-only; no runtime behavior)
+- [x] All tests passing — CI checks on this PR are green (DCO, quay workspace CI/verify)
+- [x] Follows project style guide — matches existing enhanced workspace README pattern (#6852 / announcements)
+- [x] No breaking changes introduced
+- [x] Documentation updated (if applicable)
+~~~~
 
 **Maintainer Feedback:**
 - **2026-06-23 — GitHub Copilot review (bot):** Posted an overview comment summarizing the README change. No actionable review comments or requested changes.
 - **Human maintainers:** No feedback yet.
 
+**Course Phase IV feedback (2026-07-16):**
+- Score **8/15**. Passed README documentation quality and process/communication items.
+- Missed **Implementation Proof (0/1)** — before/after evidence was not documented; addressed above in this README and in the rewritten PR body.
+- Stretch/bonus (0/3) not earned yet (no feedback rounds / merge / second cycle).
+
 **My responses:**
 - No maintainer-requested changes to address yet. Will respond promptly and professionally if review comments arrive.
+- Rewrote PR description to the course template and added Implementation Proof to this Contribution README after Phase IV score feedback.
 
-**Status:** Open — awaiting maintainer review.
+**Status:** Open — awaiting maintainer review; PR description being updated to course template.
 
 ---
 
