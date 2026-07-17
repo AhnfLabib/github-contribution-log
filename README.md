@@ -115,19 +115,50 @@ Verified before push:
 
 ## Testing Strategy
 
-### Unit Tests
+### Why a README needs a test (Phase III rubric)
 
-- N/A — this is a documentation-only change (a workspace README). No code paths are affected, so there are no unit tests to add. This is consistent with the precedent doc-only README PR #6852, which added no tests and no changeset.
+Issue #4056 is documentation-focused, but the Phase III Testing rubric still expects:
+
+1. at least one **new** automated test that exercises the fix,
+2. evidence the existing suite still passes (or an explanation of unrelated failures),
+3. tests that follow existing project patterns (helpers, naming, layout).
+
+Because the changed path is `workspaces/quay/README.md` (no runtime code), the new test treats that README as the “code path under test”: it reads the file and asserts the scaffold boilerplate is gone and the plugin links / Quick start content from the contribution are present.
+
+### Unit Tests (new)
+
+- **New file:** `workspaces/quay/plugins/quay/src/__tests__/workspaceReadme.test.ts`
+- **Pattern:** colocated Jest `describe` / `it` / `expect` style used elsewhere in the Quay frontend plugin (e.g. `src/plugin.test.ts`, `src/utils.test.ts`), placed under `__tests__/` so the change is visible in a test directory.
+- **What it exercises:**
+  - rejects the old `"Good Luck!"` scaffold text,
+  - requires the workspace title and all four relative plugin README links (`quay`, `quay-backend`, `quay-actions`, `quay-common`),
+  - requires the `## Quick start` install snippet introduced by this fix.
+
+### Existing suite / CI
+
+- Quay workspace CI on PR [#9538](https://github.com/backstage/community-plugins/pull/9538) already ran successfully for this branch (DCO, Detect workspace changes, Workspace quay Verify + CI for node 22.x / 24.x).
+- After adding the README regression test, re-run locally from the Quay workspace:
+
+```sh
+cd workspaces/quay
+yarn install
+yarn test plugins/quay/src/__tests__/workspaceReadme.test.ts
+# or full package suite:
+yarn workspace @backstage-community/plugin-quay test -- workspaceReadme
+```
+
+- Documented result to capture on resubmission: paste the Jest pass output into the Implementation Proof / testing notes once the command has been run on your machine (deps were not installed in the local Capstone checkout when this section was updated).
 
 ### Integration Tests
 
-- N/A — no runtime behavior changed.
+- N/A for runtime behavior — no backend/API/UI code paths changed.
+- The new unit test above is the automated coverage for the documentation fix itself.
 
 ### Manual Testing
 
 - Confirmed the four relative links (`./plugins/quay/README.md`, `quay-backend`, `quay-actions`, `quay-common`) all point to existing files in the workspace.
 - Cross-checked each plugin description against that plugin's own README for accuracy.
-- Confirmed `git diff` shows only `workspaces/quay/README.md` changed (no unrelated edits).
+- Confirmed the contribution diff is scoped to the README (+ the new README regression test); no unrelated formatting or commented-out code.
 - Verified the change is present on the remote branch (`origin/fix-issue-4056`) and correctly absent from `main` (it will land on `main` only when the PR merges).
 
 ### Implementation Proof (before / after)
@@ -153,7 +184,7 @@ yarn start
 - `## Plugins` list with links to all four packages (`quay`, `quay-backend`, `quay-actions`, `quay-common`)
 - `## Quick start` install commands pointing at per-plugin READMEs
 
-**Diff evidence:** [PR #9538 files changed](https://github.com/backstage/community-plugins/pull/9538/files) — 1 file, +21 / −9  
+**Diff evidence:** [PR #9538 files changed](https://github.com/backstage/community-plugins/pull/9538/files) — originally 1 file, +21 / −9  
 **Rendered after:** [workspaces/quay/README.md @ fix-issue-4056](https://github.com/AhnfLabib/community-plugins/blob/fix-issue-4056/workspaces/quay/README.md)
 
 **Verification commands run locally:**
@@ -181,6 +212,14 @@ workspaces/quay/plugins/quay/README.md
 - Implemented the enhanced `workspaces/quay/README.md`, committed it as a single focused commit, kept an unrelated `.gitignore` edit off the branch, and pushed cleanly to `origin/fix-issue-4056`.
 - Decision: kept the change scoped to one workspace README for a small, reviewable PR rather than batching many workspaces.
 
+**Phase III course feedback (score 9/15) — remediation:**
+
+- **Diff scoping (1/1):** already satisfied — change stayed on the issue.
+- **Testing (0/4):** grader noted no new test under a test directory, and the README did not mention running the suite. Remediation: added `plugins/quay/src/__tests__/workspaceReadme.test.ts` that reads `workspaces/quay/README.md` and asserts the fix; documented suite/CI commands above.
+- **README documentation quality (4/4):** already satisfied.
+- **Process & communication (1/3):** check-in form was submitted; **Slack participation (0/2)** still needs a Phase III-period post in the class channel (cannot be fixed retroactively in this file alone — post if the course still accepts it on resubmit).
+- **Stretch (0/3):** optional; not required for the Testing remediation.
+
 ### Week 4 Progress (Phase IV — Submit & Iterate)
 
 - Performed a final pre-submission review: confirmed the change fully addresses #4056, verified all four plugin README links resolve, and confirmed the PR diff is limited to `workspaces/quay/README.md` (no unrelated `.gitignore` or other files).
@@ -191,9 +230,11 @@ workspaces/quay/plugins/quay/README.md
 
 ### Code Changes
 
-- **Files modified:** `workspaces/quay/README.md` (1 file, +21 / −9)
-- **Key commits:** [`5680308d9`](https://github.com/AhnfLabib/community-plugins/commit/5680308d9) — `docs(quay): enhance workspace-level README`
-- **Approach decisions:** Followed the README structure used by the gold-standard `announcements` workspace and the format recommended in issue #4056; derived plugin descriptions from each plugin's own README; no changeset (matches doc-only precedent PR #6852).
+- **Files modified:**
+  - `workspaces/quay/README.md` (docs enhancement, +21 / −9)
+  - `workspaces/quay/plugins/quay/src/__tests__/workspaceReadme.test.ts` (new README regression test for Phase III Testing rubric)
+- **Key commits:** [`5680308d9`](https://github.com/AhnfLabib/community-plugins/commit/5680308d9) — `docs(quay): enhance workspace-level README` (README commit; test file pending commit/push)
+- **Approach decisions:** Followed the README structure used by the gold-standard `announcements` workspace and the format recommended in issue #4056; derived plugin descriptions from each plugin's own README; no changeset for the docs-only README (matches precedent PR #6852). Added a Jest `__tests__` file that asserts the README content so Phase III Testing has an automated exercise of the changed path.
 
 ---
 
