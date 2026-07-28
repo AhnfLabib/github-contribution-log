@@ -2,7 +2,7 @@
 **Contribution Number:** [1]  
 **Student:** Ahnaf Labib
 **Issue:** https://github.com/backstage/community-plugins/issues/4056  
-**Status:** [Phase IV — PR submitted upstream; awaiting maintainer review]  
+**Status:** [Phase IV — follow-up PR #10140 open after maintainer feedback on #9538]  
 **Final target workspace:** `workspaces/quay/README.md` (pivoted from `analytics` — see Solution Approach)
 ---
 
@@ -101,7 +101,7 @@ Replaced the default scaffolded `workspaces/quay/README.md` with a workspace-lev
   - `quay-common` — shared types/utilities used by the other Quay plugins.
 - A `## Quick start` install snippet pointing to the per-plugin READMEs for details.
 - **Branch:** [`fix-issue-4056`](https://github.com/AhnfLabib/community-plugins/tree/fix-issue-4056)
-- **Commit:** [`5680308d9`](https://github.com/AhnfLabib/community-plugins/commit/5680308d9) — `docs(quay): enhance workspace-level README`
+- **Commit:** [`ad3dee337`](https://github.com/AhnfLabib/community-plugins/commit/ad3dee337) — `docs(quay): enhance workspace-level README` (`Signed-off-by: Ahnaf Labib <ahnaflabib212@gmail.com>`)
 
 **Review:**  
 Verified before push:
@@ -115,51 +115,32 @@ Verified before push:
 
 ## Testing Strategy
 
-### Why a README needs a test (Phase III rubric)
+### Course rubric vs upstream maintainer guidance
 
-Issue #4056 is documentation-focused, but the Phase III Testing rubric still expects:
+For Phase III, a README regression Jest test (`workspaceReadme.test.ts`) was added so the course Testing rubric had an automated exercise of the docs change. That test was later **removed from the upstream PR** after maintainer review (see Maintainer Feedback below).
 
-1. at least one **new** automated test that exercises the fix,
-2. evidence the existing suite still passes (or an explanation of unrelated failures),
-3. tests that follow existing project patterns (helpers, naming, layout).
+**Why the test was removed:** Maintainer [@christoph-jerolimov](https://github.com/christoph-jerolimov) explicitly asked to remove it — *“We really don't need tests for a workspace README.”* Upstream prefers docs-only PRs for workspace README work; a Jest file asserting README string contents is unnecessary for this contribution type. Course rubric expectations do not override maintainer review requests when landing the change upstream.
 
-Because the changed path is `workspaces/quay/README.md` (no runtime code), the new test treats that README as the “code path under test”: it reads the file and asserts the scaffold boilerplate is gone and the plugin links / Quick start content from the contribution are present.
+### Unit / automated tests
 
-### Unit Tests (new)
-
-- **New file:** `workspaces/quay/plugins/quay/src/__tests__/workspaceReadme.test.ts`
-- **Pattern:** colocated Jest `describe` / `it` / `expect` style used elsewhere in the Quay frontend plugin (e.g. `src/plugin.test.ts`, `src/utils.test.ts`), placed under `__tests__/` so the change is visible in a test directory.
-- **What it exercises:**
-  - rejects the old `"Good Luck!"` scaffold text,
-  - requires the workspace title and all four relative plugin README links (`quay`, `quay-backend`, `quay-actions`, `quay-common`),
-  - requires the `## Quick start` install snippet introduced by this fix.
+- **None in the upstream PR** (after remediation). Documentation-only change; no runtime code paths.
+- The temporary file `workspaces/quay/plugins/quay/src/__tests__/workspaceReadme.test.ts` was dropped by removing the unsigned test commit from `fix-issue-4056`.
 
 ### Existing suite / CI
 
-- Quay workspace CI on PR [#9538](https://github.com/backstage/community-plugins/pull/9538) already ran successfully for this branch (DCO, Detect workspace changes, Workspace quay Verify + CI for node 22.x / 24.x).
-- After adding the README regression test, re-run locally from the Quay workspace:
-
-```sh
-cd workspaces/quay
-yarn install
-yarn test plugins/quay/src/__tests__/workspaceReadme.test.ts
-# or full package suite:
-yarn workspace @backstage-community/plugin-quay test -- workspaceReadme
-```
-
-- Documented result to capture on resubmission: paste the Jest pass output into the Implementation Proof / testing notes once the command has been run on your machine (deps were not installed in the local Capstone checkout when this section was updated).
+- Quay workspace CI on PR [#9538](https://github.com/backstage/community-plugins/pull/9538) previously ran for this branch (Detect workspace changes, Workspace quay Verify + CI for node 22.x / 24.x).
+- After the fix: branch is docs-only again (`workspaces/quay/README.md` only), with a DCO-signed commit. Re-check DCO + quay CI once the PR is reopened.
 
 ### Integration Tests
 
-- N/A for runtime behavior — no backend/API/UI code paths changed.
-- The new unit test above is the automated coverage for the documentation fix itself.
+- N/A — no backend/API/UI code paths changed.
 
 ### Manual Testing
 
 - Confirmed the four relative links (`./plugins/quay/README.md`, `quay-backend`, `quay-actions`, `quay-common`) all point to existing files in the workspace.
 - Cross-checked each plugin description against that plugin's own README for accuracy.
-- Confirmed the contribution diff is scoped to the README (+ the new README regression test); no unrelated formatting or commented-out code.
-- Verified the change is present on the remote branch (`origin/fix-issue-4056`) and correctly absent from `main` (it will land on `main` only when the PR merges).
+- Confirmed the contribution diff is scoped to the README only; no unrelated formatting or commented-out code.
+- Verified the change is present on the contribution branch (`fix-issue-4056`) and correctly absent from `main` (it will land on `main` only when the PR merges).
 
 ### Implementation Proof (before / after)
 
@@ -184,7 +165,7 @@ yarn start
 - `## Plugins` list with links to all four packages (`quay`, `quay-backend`, `quay-actions`, `quay-common`)
 - `## Quick start` install commands pointing at per-plugin READMEs
 
-**Diff evidence:** [PR #9538 files changed](https://github.com/backstage/community-plugins/pull/9538/files) — originally 1 file, +21 / −9  
+**Diff evidence:** [PR #9538 files changed](https://github.com/backstage/community-plugins/pull/9538/files) — docs-only: `workspaces/quay/README.md`, +21 / −9  
 **Rendered after:** [workspaces/quay/README.md @ fix-issue-4056](https://github.com/AhnfLabib/community-plugins/blob/fix-issue-4056/workspaces/quay/README.md)
 
 **Verification commands run locally:**
@@ -215,7 +196,7 @@ workspaces/quay/plugins/quay/README.md
 **Phase III course feedback (score 9/15) — remediation:**
 
 - **Diff scoping (1/1):** already satisfied — change stayed on the issue.
-- **Testing (0/4):** grader noted no new test under a test directory, and the README did not mention running the suite. Remediation: added `plugins/quay/src/__tests__/workspaceReadme.test.ts` that reads `workspaces/quay/README.md` and asserts the fix; documented suite/CI commands above.
+- **Testing (0/4):** grader noted no new test under a test directory. A temporary README regression test was added for the course rubric, then **removed again** after upstream maintainers said workspace README PRs do not need tests (see Week 4 / Maintainer Feedback).
 - **README documentation quality (4/4):** already satisfied.
 - **Process & communication (1/3):** check-in form was submitted; **Slack participation (0/2)** still needs a Phase III-period post in the class channel (cannot be fixed retroactively in this file alone — post if the course still accepts it on resubmit).
 - **Stretch (0/3):** optional; not required for the Testing remediation.
@@ -223,27 +204,29 @@ workspaces/quay/plugins/quay/README.md
 ### Week 4 Progress (Phase IV — Submit & Iterate)
 
 - Performed a final pre-submission review: confirmed the change fully addresses #4056, verified all four plugin README links resolve, and confirmed the PR diff is limited to `workspaces/quay/README.md` (no unrelated `.gitignore` or other files).
-- Opened upstream pull request [#9538](https://github.com/backstage/community-plugins/pull/9538) from `AhnfLabib:fix-issue-4056` → `backstage/community-plugins:main` (1 commit, +21 / −9, documentation-only).
+- Opened upstream pull request [#9538](https://github.com/backstage/community-plugins/pull/9538) from `AhnfLabib:fix-issue-4056` → `backstage/community-plugins:main` (documentation-only).
 - Course Phase IV feedback scored **8/15**; main gap was missing **Implementation Proof** (screenshots / console evidence). Updated this Contribution README with before/after proof and rewritten the upstream PR body to the course template.
-- No human maintainer feedback yet; monitoring the PR for review comments and ready to iterate if requested.
-- Remaining course deliverables: resubmit Phase IV check-in after PR + README updates; celebration Slack post.
+- Received human maintainer feedback (Jul 21, 2026); PR was closed with a request to reopen after fixes. Remediation: drop the README test commit and ensure DCO sign-off on remaining commit(s), then reopen.
+- Remaining course deliverables: reopen PR after remediations; resubmit Phase IV check-in; celebration Slack post.
 
 ### Code Changes
 
-- **Files modified:**
+- **Files modified (upstream PR):**
   - `workspaces/quay/README.md` (docs enhancement, +21 / −9)
-  - `workspaces/quay/plugins/quay/src/__tests__/workspaceReadme.test.ts` (new README regression test for Phase III Testing rubric)
-- **Key commits:** [`5680308d9`](https://github.com/AhnfLabib/community-plugins/commit/5680308d9) — `docs(quay): enhance workspace-level README` (README commit; test file pending commit/push)
-- **Approach decisions:** Followed the README structure used by the gold-standard `announcements` workspace and the format recommended in issue #4056; derived plugin descriptions from each plugin's own README; no changeset for the docs-only README (matches precedent PR #6852). Added a Jest `__tests__` file that asserts the README content so Phase III Testing has an automated exercise of the changed path.
+- **Removed from PR (per maintainer):** `workspaces/quay/plugins/quay/src/__tests__/workspaceReadme.test.ts` — was only for the course Testing rubric; maintainers do not want tests for workspace READMEs.
+- **Key commits:** [`ad3dee337`](https://github.com/AhnfLabib/community-plugins/commit/ad3dee337) — `docs(quay): enhance workspace-level README` (`Signed-off-by: Ahnaf Labib <ahnaflabib212@gmail.com>`)
+- **Approach decisions:** Followed the README structure used by the gold-standard `announcements` workspace and the format recommended in issue #4056; derived plugin descriptions from each plugin's own README; no changeset for the docs-only README (matches precedent PR #6852). Kept the PR docs-only after maintainer review.
 
 ---
 
 ## Pull Request
 
-**PR Link:** https://github.com/backstage/community-plugins/pull/9538  
+**Original PR:** https://github.com/backstage/community-plugins/pull/9538 (closed 2026-07-21; cannot reopen after force-push)  
+**Active follow-up PR:** https://github.com/backstage/community-plugins/pull/10140  
 **Branch:** [`fix-issue-4056`](https://github.com/AhnfLabib/community-plugins/tree/fix-issue-4056) → `backstage/community-plugins:main`  
-**Opened:** 2026-06-23  
-**Files changed:** 1 (`workspaces/quay/README.md`, +21 / −9)
+**Opened (follow-up):** 2026-07-27  
+**Files changed:** 1 (`workspaces/quay/README.md`, +21 / −9)  
+**Commit:** [`ad3dee337`](https://github.com/AhnfLabib/community-plugins/commit/ad3dee337) — `Signed-off-by: Ahnaf Labib <ahnaflabib212@gmail.com>`
 
 **Contribution summary:**  
 Replaced the default scaffolded `workspaces/quay/README.md` with a workspace overview that describes the Quay container registry workspace, lists its four plugins with links and one-line descriptions, and includes a quick-start install snippet — addressing [#4056](https://github.com/backstage/community-plugins/issues/4056).
@@ -296,19 +279,37 @@ yarn start
 ~~~~
 
 **Maintainer Feedback:**
+
 - **2026-06-23 — GitHub Copilot review (bot):** Posted an overview comment summarizing the README change. No actionable review comments or requested changes.
-- **Human maintainers:** No feedback yet.
+- **2026-07-17 — backstage-goalie (bot):** Flagged that all commits need to be DCO signed before review. The docs commit already had `Signed-off-by`; the later test commit did **not**.
+- **2026-07-21 — [@christoph-jerolimov](https://github.com/christoph-jerolimov) (member, requested changes):**
+
+  > Hi @AhnfLabib, thanks for the contribution. This looks like an automated / AI powered PR, which isn't wrong, but if you like to get this in you need to sign the DCO and please remove the test. We really don't need tests for a workspace README.
+
+  Follow-up: *“Please reopen this PR if you really want contribute something.”* — then **closed** the PR.
+
+**Why remove the tests (maintainer rationale + my takeaway):**
+
+- Workspace README changes are documentation-only; there is no runtime behavior to protect with Jest.
+- The regression test was added to satisfy the **course** Phase III Testing rubric, not because Backstage maintainers asked for it.
+- Upstream review is authoritative for merge: keeping an unwanted test (and an unsigned commit) blocked acceptance. Prefer a small, DCO-signed, docs-only PR over course-oriented extras when they conflict with maintainer guidance.
+
+**Remediation applied (2026-07-27):**
+
+1. **Removed the test** by dropping the `test(quay): add workspace README regression coverage` commit from `fix-issue-4056` (file `workspaceReadme.test.ts` no longer on the branch).
+2. **DCO:** Rewrote the remaining docs commit with author + `Signed-off-by: Ahnaf Labib <ahnaflabib212@gmail.com>` (commit [`ad3dee337`](https://github.com/AhnfLabib/community-plugins/commit/ad3dee337)).
+3. Force-pushed `fix-issue-4056`. GitHub **could not reopen** [#9538](https://github.com/backstage/community-plugins/pull/9538) after the force-push (“state cannot be changed… branch was force-pushed or recreated”), so opened follow-up PR [#10140](https://github.com/backstage/community-plugins/pull/10140) with the same docs-only change and posted a link on #9538.
 
 **Course Phase IV feedback (2026-07-16):**
 - Score **8/15**. Passed README documentation quality and process/communication items.
 - Missed **Implementation Proof (0/1)** — before/after evidence was not documented; addressed above in this README and in the rewritten PR body.
-- Stretch/bonus (0/3) not earned yet (no feedback rounds / merge / second cycle).
+- Stretch/bonus (0/3) — first real feedback round is this maintainer review; completing the reopen/fix cycle may count toward stretch.
 
 **My responses:**
-- No maintainer-requested changes to address yet. Will respond promptly and professionally if review comments arrive.
-- Rewrote PR description to the course template and added Implementation Proof to this Contribution README after Phase IV score feedback.
+- Rewrote PR description to the course template and added Implementation Proof after Phase IV score feedback.
+- Acted on maintainer review: removed README test, resigned commit with DCO email `ahnaflabib212@gmail.com`, commented on #9538, and opened follow-up [#10140](https://github.com/backstage/community-plugins/pull/10140).
 
-**Status:** Open — awaiting maintainer review; PR description being updated to course template.
+**Status:** [#9538](https://github.com/backstage/community-plugins/pull/9538) remains closed (cannot reopen after force-push). Active PR: [#10140](https://github.com/backstage/community-plugins/pull/10140) — open, docs-only, DCO-signed.
 
 ---
 
@@ -323,11 +324,14 @@ yarn start
 
 - The originally selected `analytics` workspace had already been fixed upstream (PR #6852), so I had to pivot rather than submit a redundant change. Scanning for remaining boilerplate READMEs and choosing `quay` kept the contribution aligned with #4056.
 - Keeping local progress-tracking files (including this log) out of the upstream PR required separating fork-only `.gitignore` edits from the contribution branch.
+- Course Testing rubric pushed toward adding a README Jest test; upstream maintainers rejected that pattern. Resolved by removing the test and prioritizing maintainer guidance so the PR can be reopened.
 
 ### What I'd Do Differently Next Time
 
 - Check upstream merge history for the target file earlier in Phase II, before investing time in a workspace that may already be resolved.
 - Draft the upstream PR description with more context upfront (linked issue, acceptance criteria, and precedent PRs) rather than relying on the default template.
+- Sign every commit with DCO (`Signed-off-by`) from the first push — including any follow-up commits — so goalie/DCO checks stay green.
+- For docs-only contributions, match what maintainers already merge (e.g. #6852) rather than adding course-only test files that upstream will ask to remove.
 
 ---
 
@@ -335,6 +339,7 @@ yarn start
 
 - [Issue #4056 — Improve workspace-level READMEs](https://github.com/backstage/community-plugins/issues/4056)
 - [PR #6852 — docs: improve workspace-level READMEs for selected workspaces](https://github.com/backstage/community-plugins/pull/6852) (format precedent)
-- [My upstream PR #9538](https://github.com/backstage/community-plugins/pull/9538)
+- [My upstream PR #9538](https://github.com/backstage/community-plugins/pull/9538) (closed; superseded)
+- [Follow-up PR #10140](https://github.com/backstage/community-plugins/pull/10140) (active)
 - [Backstage community-plugins CONTRIBUTING.md](https://github.com/backstage/community-plugins/blob/master/CONTRIBUTING.md) (changeset and DCO guidance)
 - Gold-standard reference: `workspaces/announcements/README.md`
